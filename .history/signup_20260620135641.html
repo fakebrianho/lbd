@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — Apex City Classic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./src/signup.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">APEX<span>/</span>CITY</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="signup.html" class="active">Sign Up</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <aside class="left">
+    <div class="left-inner">
+      <div class="left-eyebrow">— Season XII / Registration</div>
+      <h1>Put your<br>squad on<br>the <em>map.</em></h1>
+      <p>Register your team in under three minutes. We'll send confirmation within 24 hours and follow up with your group draw on July 1.</p>
+
+      <div class="deadline-card">
+        <div class="label">Registration closes</div>
+        <div class="date">June 28, 2026</div>
+      </div>
+
+      <ul class="left-list">
+        <li><span>Entry fee</span><span class="v">$250</span></li>
+        <li><span>Sports</span><span class="v">4</span></li>
+        <li><span>Registration</span><span class="v">Open</span></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="right">
+    <div class="form-head">
+      <div class="steps">
+        <span class="step active" data-step="1">01 / Team</span>
+        <span class="step" data-step="2">02 / Captain</span>
+        <span class="step" data-step="3">03 / Roster</span>
+      </div>
+      <span class="step-count" id="stepCount">Step 1 of 3</span>
+    </div>
+
+    <form id="signup-form">
+
+      <!-- STEP 1: TEAM -->
+      <div class="form-step active" data-step="1">
+        <h2 class="step-title">About your <em>squad.</em></h2>
+        <p class="step-desc">The basics — team name, sport, and which division you're entering.</p>
+
+        <div class="field">
+          <label>Team name</label>
+          <input type="text" name="teamName" placeholder="The Westside Reign" required>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Home neighborhood</label>
+            <input type="text" name="hood" placeholder="Pilsen, Bronzeville…" required>
+          </div>
+          <div class="field">
+            <label>Founded</label>
+            <input type="text" name="founded" placeholder="2021" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Sport</label>
+          <div class="radio-grid">
+            <label class="radio-card selected">
+              <input type="radio" name="sport" value="basketball" checked>
+              <div class="rc-title">Basketball</div>
+              <div class="rc-desc">5-on-5 full court. Roster of 5–8.</div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="sport" value="volleyball">
+              <div class="rc-title">Volleyball</div>
+              <div class="rc-desc">6-on-6 rally scoring. Roster of 6–10.</div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="sport" value="pickleball">
+              <div class="rc-title">Pickleball</div>
+              <div class="rc-desc">Doubles format. Roster of 2–4.</div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="sport" value="table-tennis">
+              <div class="rc-title">Table Tennis</div>
+              <div class="rc-desc">Singles or doubles. Roster of 1–4.</div>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Division</label>
+          <div class="radio-grid">
+            <label class="radio-card selected">
+              <input type="radio" name="division" value="open" checked>
+              <div class="rc-title">Open Division</div>
+              <div class="rc-desc">All-comers, 18+. The flagship bracket.</div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="division" value="veterans">
+              <div class="rc-title">Veterans</div>
+              <div class="rc-desc">35+ only. Shorter games, same hardware.</div>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <span></span>
+          <button type="button" class="btn btn-primary" data-next>Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: CAPTAIN -->
+      <div class="form-step" data-step="2">
+        <h2 class="step-title">Who's the <em>captain?</em></h2>
+        <p class="step-desc">We need one point of contact for scheduling, brackets, and emergencies. This person will receive all tournament communications.</p>
+
+        <div class="row">
+          <div class="field">
+            <label>First name</label>
+            <input type="text" name="firstName" placeholder="Marcus" required>
+          </div>
+          <div class="field">
+            <label>Last name</label>
+            <input type="text" name="lastName" placeholder="Reyes" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="captain@example.com" required>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Phone</label>
+            <input type="tel" name="phone" placeholder="(312) 555-0142" required>
+          </div>
+          <div class="field">
+            <label>Jersey number</label>
+            <input type="text" name="number" placeholder="23" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Anything we should know</label>
+          <textarea name="notes" placeholder="Sponsor patches, accessibility needs, etc. Optional."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-prev>← Back</button>
+          <button type="button" class="btn btn-primary" data-next>Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: ROSTER -->
+      <div class="form-step" data-step="3">
+        <h2 class="step-title">Lock in the <em>roster.</em></h2>
+        <p class="step-desc">Add five to eight players. You can update the roster up until June 28 — for now, just give us your starting five at minimum.</p>
+
+        <div id="roster">
+          <div class="roster-row">
+            <div class="roster-num">01</div>
+            <input type="text" placeholder="Full name" required>
+            <input type="text" placeholder="Position (PG, SG…)" class="role-cell">
+            <input type="text" placeholder="#" maxlength="3">
+            <button type="button" class="roster-del" aria-label="Remove">×</button>
+          </div>
+          <div class="roster-row">
+            <div class="roster-num">02</div>
+            <input type="text" placeholder="Full name" required>
+            <input type="text" placeholder="Position" class="role-cell">
+            <input type="text" placeholder="#" maxlength="3">
+            <button type="button" class="roster-del" aria-label="Remove">×</button>
+          </div>
+          <div class="roster-row">
+            <div class="roster-num">03</div>
+            <input type="text" placeholder="Full name" required>
+            <input type="text" placeholder="Position" class="role-cell">
+            <input type="text" placeholder="#" maxlength="3">
+            <button type="button" class="roster-del" aria-label="Remove">×</button>
+          </div>
+          <div class="roster-row">
+            <div class="roster-num">04</div>
+            <input type="text" placeholder="Full name" required>
+            <input type="text" placeholder="Position" class="role-cell">
+            <input type="text" placeholder="#" maxlength="3">
+            <button type="button" class="roster-del" aria-label="Remove">×</button>
+          </div>
+          <div class="roster-row">
+            <div class="roster-num">05</div>
+            <input type="text" placeholder="Full name" required>
+            <input type="text" placeholder="Position" class="role-cell">
+            <input type="text" placeholder="#" maxlength="3">
+            <button type="button" class="roster-del" aria-label="Remove">×</button>
+          </div>
+        </div>
+
+        <button type="button" class="add-player" id="addPlayer">+ Add another player</button>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-prev>← Back</button>
+          <button type="submit" class="btn btn-primary">Submit Registration →</button>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success" id="success">
+        <div class="success-icon">✓</div>
+        <h2>You're <em>in.</em></h2>
+        <p>Confirmation is on its way to your inbox. Expect tournament details and your group draw on July 1. The pavement is waiting.</p>
+        <div class="success-ref">CONFIRMATION # AC-26-<span id="ref">0000</span></div>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+<footer class="footer">
+  © 2026 APEX CITY CLASSIC <span class="footer-sep">●</span> SEASON XII <span class="footer-sep">●</span> CHICAGO
+</footer>
+
+<script>
+// Multi-step form
+const steps = document.querySelectorAll('.form-step');
+const stepLabels = document.querySelectorAll('.step');
+const stepCount = document.getElementById('stepCount');
+let current = 1;
+
+function showStep(n) {
+  steps.forEach(s => s.classList.toggle('active', +s.dataset.step === n));
+  stepLabels.forEach(l => {
+    const num = +l.dataset.step;
+    l.classList.toggle('active', num === n);
+    l.classList.toggle('done', num < n);
+  });
+  stepCount.textContent = `Step ${n} of 3`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('[data-next]').forEach(b =>
+  b.addEventListener('click', () => {
+    // basic validation: require visible required fields
+    const stepEl = document.querySelector('.form-step.active');
+    const fields = stepEl.querySelectorAll('input[required], textarea[required]');
+    let ok = true;
+    fields.forEach(f => {
+      if (!f.value.trim()) {
+        f.style.borderBottomColor = 'var(--rust)';
+        ok = false;
+      } else {
+        f.style.borderBottomColor = '';
+      }
+    });
+    if (!ok) return;
+    if (current < 3) { current++; showStep(current); }
+  })
+);
+
+document.querySelectorAll('[data-prev]').forEach(b =>
+  b.addEventListener('click', () => {
+    if (current > 1) { current--; showStep(current); }
+  })
+);
+
+// Radio cards
+document.querySelectorAll('.radio-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const group = card.querySelector('input').name;
+    document.querySelectorAll(`.radio-card input[name="${group}"]`).forEach(i =>
+      i.closest('.radio-card').classList.remove('selected')
+    );
+    card.classList.add('selected');
+    card.querySelector('input').checked = true;
+  });
+});
+
+// Roster add/remove
+const roster = document.getElementById('roster');
+document.getElementById('addPlayer').addEventListener('click', () => {
+  const count = roster.children.length;
+  if (count >= 8) {
+    alert('Maximum 8 players per roster.');
+    return;
+  }
+  const num = String(count + 1).padStart(2, '0');
+  const row = document.createElement('div');
+  row.className = 'roster-row';
+  row.innerHTML = `
+    <div class="roster-num">${num}</div>
+    <input type="text" placeholder="Full name">
+    <input type="text" placeholder="Position" class="role-cell">
+    <input type="text" placeholder="#" maxlength="3">
+    <button type="button" class="roster-del" aria-label="Remove">×</button>
+  `;
+  roster.appendChild(row);
+});
+
+roster.addEventListener('click', e => {
+  if (e.target.classList.contains('roster-del')) {
+    if (roster.children.length <= 5) {
+      alert('Minimum 5 players required.');
+      return;
+    }
+    e.target.closest('.roster-row').remove();
+    // renumber
+    [...roster.children].forEach((row, i) => {
+      row.querySelector('.roster-num').textContent = String(i + 1).padStart(2, '0');
+    });
+  }
+});
+
+// Submit
+document.getElementById('signup-form').addEventListener('submit', e => {
+  e.preventDefault();
+  document.querySelector('.form-step.active').classList.remove('active');
+  document.getElementById('success').classList.add('active');
+  document.getElementById('ref').textContent = Math.floor(1000 + Math.random() * 9000);
+  document.querySelector('.form-head').style.display = 'none';
+});
+</script>
+
+</body>
+</html>

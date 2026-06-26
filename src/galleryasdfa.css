@@ -1,0 +1,270 @@
+:root {
+  --oxblood: #5c1a1b;
+  --oxblood-deep: #3d0f10;
+  --cream: #f3ead3;
+  --cream-warm: #ebe0c2;
+  --ink: #161210;
+  --rust: #c8442a;
+  --gold: #d4a946;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Fraunces', serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(22,18,16,0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(243,234,211,0.08);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  color: var(--cream);
+}
+.nav-logo span { color: var(--rust); }
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.nav-links a {
+  color: var(--cream);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+.nav-links a.active { color: var(--gold); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: currentColor;
+  transition: width 0.4s ease;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after { width: 100%; }
+
+/* === HEADER === */
+.gal-header {
+  padding: 180px 40px 80px;
+  position: relative;
+  border-bottom: 1px solid rgba(243,234,211,0.1);
+}
+.gal-header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  align-items: end;
+}
+.page-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 24px;
+}
+.page-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 13vw, 220px);
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+.page-title em {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: -0.03em;
+}
+.gal-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  line-height: 2;
+  padding-bottom: 16px;
+}
+
+/* === GALLERY GRID === */
+.gallery {
+  padding: 80px 40px 120px;
+}
+.gallery-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  grid-auto-flow: dense;
+}
+
+.gal-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--oxblood-deep);
+}
+.gal-item .visual {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gal-item:hover .visual { transform: scale(1.05); }
+
+.gal-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(22,18,16,0.85) 0%, transparent 50%);
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.4s;
+}
+.gal-item:hover::after { opacity: 1; }
+
+.gal-caption {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s;
+}
+.gal-item:hover .gal-caption {
+  transform: translateY(0);
+  opacity: 1;
+}
+.gal-caption .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+.gal-caption .title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+.gal-caption .tag {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 14px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+/* Sizing variations */
+.gal-item.large { grid-column: span 6; aspect-ratio: 4/3; }
+.gal-item.medium { grid-column: span 4; aspect-ratio: 3/4; }
+.gal-item.wide { grid-column: span 8; aspect-ratio: 16/9; }
+.gal-item.small { grid-column: span 4; aspect-ratio: 1/1; }
+.gal-item.tall { grid-column: span 4; aspect-ratio: 2/3; }
+
+/* === SVG ART (no external images) === */
+.visual svg { display: block; width: 100%; height: 100%; }
+
+/* === SECTION BREAK === */
+.break {
+  padding: 80px 40px;
+  text-align: center;
+  border-top: 1px solid rgba(243,234,211,0.1);
+  border-bottom: 1px solid rgba(243,234,211,0.1);
+}
+.break-quote {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 56px);
+  line-height: 1.2;
+  font-weight: 400;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.break-quote em { color: var(--gold); }
+.break-attribution {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-top: 30px;
+}
+
+/* === BIG REVEAL TEXT === */
+.reveal-block {
+  padding: 160px 40px;
+  text-align: center;
+}
+.reveal-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 18vw, 280px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--oxblood);
+  display: inline-block;
+  position: relative;
+}
+.reveal-text .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.reveal-text .word span { display: inline-block; }
+
+/* === FOOTER === */
+.footer {
+  background: var(--oxblood-deep);
+  color: var(--cream);
+  padding: 40px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .gal-header-inner { grid-template-columns: 1fr; gap: 30px; }
+  .gallery-grid { gap: 10px; }
+  .gal-item.large, .gal-item.wide { grid-column: span 12; }
+  .gal-item.medium, .gal-item.small, .gal-item.tall { grid-column: span 6; }
+  .nav { padding: 14px 24px; }
+  .nav-links { gap: 16px; font-size: 10px; }
+  .gal-header, .gallery, .break, .reveal-block { padding-left: 24px; padding-right: 24px; }
+}
+
+.gallery--pt-80 {
+  padding-top: 80px;
+}
+.footer-sep {
+  margin: 0 16px;
+  opacity: 0.4;
+}

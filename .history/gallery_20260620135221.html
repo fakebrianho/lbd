@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Apex City Classic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="./src/gallery.css">
+</head>
+
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo">APEX<span>/</span>CITY</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="signup.html">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <section class="gal-header">
+    <div class="gal-header-inner">
+      <div class="page-eyebrow">— Archive 2024 / Volume IV</div>
+      <h1 class="page-title">The <em>moments.</em></h1>
+      <p class="page-lead">A selection of frames from last summer's tournament — opening night through the final
+        whistle.</p>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </section>
+
+  <footer class="footer">
+    © 2026 APEX CITY CLASSIC <span class="footer-sep">●</span> SEASON XL <span class="footer-sep">●</span> CHICAGO
+  </footer>
+
+  <script>
+    const PHOTOS = [
+      { "src": "https://lh3.googleusercontent.com/pw/AP1GczN075S5bJotF3giyKc_woSwAI8byPYwabc-QrPtPSmWRKQo_Lek1mg4JlBXLc3zC6aa_nNzKSIiDqsq7fwtz0SFNroaFBFSAwL5pOJtsMyE_8ypDQynOmrukSs7M4qTq7EzkM1-UChq3eto7jcG9E5mzQ=w2480-h1654-s-no-gm?authuser=0", "caption": "01 / Opening Tip — Grant Park" },
+      { "src": "", "caption": "02 / The Ball, Mid-Air" },
+      { "src": "", "caption": "03 / No. 23 — Northpoint" },
+      { "src": "", "caption": "04 / Hot Hand" },
+      { "src": "", "caption": "05 / Quarterfinal Crowd — Sold Out" },
+      { "src": "", "caption": "06 / Champions — South Loop Suns" },
+      { "src": "", "caption": "07 / Locker Room — Halftime" },
+      { "src": "", "caption": "08 / Overtime — Quarterfinal" },
+      { "src": "", "caption": "09 / Final Score — Championship" },
+      { "src": "", "caption": "10 / Skyline at Dusk" },
+      { "src": "", "caption": "11 / Target Practice — Warmups" },
+      { "src": "", "caption": "12 / MVP — D. Reyes" }
+    ];
+  </script>
+
+  <script>
+    async function loadGallery() {
+      const res = await fetch('./photos.json').catch(() => null);
+      const photos = res
+        ? await res.json()
+        : (typeof PHOTOS !== 'undefined' ? PHOTOS : []);
+      const grid = document.getElementById('gallery-grid');
+
+      photos.forEach(photo => {
+        if (!photo.src) return;
+        const item = document.createElement('div');
+        item.className = 'gal-item';
+        item.setAttribute('data-fade', '');
+        item.innerHTML = `<img src="${photo.src}" alt="${photo.caption}" loading="lazy"><div class="gal-caption">${photo.caption}</div>`;
+        grid.appendChild(item);
+      });
+
+      initAnimations();
+    }
+
+    function initAnimations() {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Header fade in
+      gsap.from('.page-eyebrow, .page-title, .page-lead', {
+        opacity: 0,
+        y: 20,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: 'power2.out'
+      });
+
+      // Simple fade-in for each gallery item as it scrolls into view
+      gsap.utils.toArray('[data-fade]').forEach((item) => {
+        gsap.from(item, {
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 90%',
+            toggleActions: 'play none none none'
+          },
+          opacity: 0,
+          y: 30,
+          duration: 0.9,
+          ease: 'power2.out'
+        });
+      });
+    }
+
+    loadGallery();
+  </script>
+
+</body>
+
+</html>

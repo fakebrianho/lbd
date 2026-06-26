@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — CCUC Labor Day</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="./src/gallery.css">
+</head>
+
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo">CCUC<span>/</span>Labor Day</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="signup.html">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <section class="gal-header">
+    <div class="gal-header-inner">
+      <div class="page-eyebrow">— Labor Day Classic / Gallery</div>
+      <h1 class="page-title">The <em>moments.</em></h1>
+      <p class="page-lead">Photos from past Labor Day weekends — on the courts, in the stands, and everywhere in between.</p>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </section>
+
+  <footer class="footer">
+    © 2026 CCUC LABOR DAY CLASSIC <span class="footer-sep">●</span> SEASON XII <span class="footer-sep">●</span> CHICAGO
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+    <button type="button" class="lightbox-prev" id="lightbox-prev" aria-label="Previous photo">&#8592;</button>
+    <button type="button" class="lightbox-next" id="lightbox-next" aria-label="Next photo">&#8594;</button>
+    <div class="lightbox-inner">
+      <img class="lightbox-img" id="lightbox-img" src="" alt="">
+      <p class="lightbox-caption" id="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script>
+    let galleryPhotos = [];
+    let lightboxIndex = 0;
+
+    async function loadGallery() {
+      const grid = document.getElementById('gallery-grid');
+
+      try {
+        const res = await fetch('./photos.json');
+        if (!res.ok) throw new Error('Failed to load photos.json');
+        galleryPhotos = await res.json();
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = '<p class="gallery-empty">Could not load gallery photos. Make sure you are running a local server.</p>';
+        initAnimations();
+        return;
+      }
+
+      if (!galleryPhotos.length) {
+        grid.innerHTML = '<p class="gallery-empty">No photos found.</p>';
+        initAnimations();
+        return;
+      }
+
+      galleryPhotos.forEach((photo, index) => {
+        if (!photo.src) return;
+
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'gal-item';
+        item.setAttribute('data-fade', '');
+        item.setAttribute('data-index', index);
+        item.setAttribute('aria-label', photo.caption ? `View ${photo.caption}` : 'View photo');
+
+        const img = document.createElement('img');
+        img.src = photo.thumb || photo.src;
+        img.alt = photo.caption || '';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+
+        const caption = document.createElement('div');
+        caption.className = 'gal-caption';
+        caption.textContent = photo.caption || '';
+
+        item.appendChild(img);
+        item.appendChild(caption);
+        item.addEventListener('click', () => openLightbox(index));
+        grid.appendChild(item);
+      });
+
+      initLightbox();
+      initAnimations();
+    }
+
+    function initLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      const closeBtn = document.getElementById('lightbox-close');
+      const prevBtn = document.getElementById('lightbox-prev');
+      const nextBtn = document.getElementById('lightbox-next');
+
+      closeBtn.addEventListener('click', closeLightbox);
+      prevBtn.addEventListener('click', () => stepLightbox(-1));
+      nextBtn.addEventListener('click', () => stepLightbox(1));
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('is-open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') stepLightbox(-1);
+        if (e.key === 'ArrowRight') stepLightbox(1);
+      });
+    }
+
+    function openLightbox(index) {
+      lightboxIndex = index;
+      updateLightbox();
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('lightbox-open');
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('lightbox-open');
+    }
+
+    function stepLightbox(delta) {
+      const total = galleryPhotos.length;
+      if (!total) return;
+      lightboxIndex = (lightboxIndex + delta + total) % total;
+      updateLightbox();
+    }
+
+    function updateLightbox() {
+      const photo = galleryPhotos[lightboxIndex];
+      if (!photo) return;
+
+      const img = document.getElementById('lightbox-img');
+      const caption = document.getElementById('lightbox-caption');
+
+      img.classList.remove('is-loaded');
+      caption.textContent = photo.caption || '';
+
+      const next = new Image();
+      next.onload = () => {
+        img.src = next.src;
+        img.alt = photo.caption || '';
+        requestAnimationFrame(() => img.classList.add('is-loaded'));
+      };
+      next.src = photo.src;
+    }
+
+    function initAnimations() {
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.from('.page-eyebrow, .page-title, .page-lead', {
+        opacity: 0,
+        y: 20,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: 'power2.out'
+      });
+
+      gsap.utils.toArray('[data-fade]').forEach((item) => {
+        gsap.from(item, {
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 90%',
+            toggleActions: 'play none none none'
+          },
+          opacity: 0,
+          y: 30,
+          duration: 0.9,
+          ease: 'power2.out'
+        });
+      });
+    }
+
+    loadGallery();
+  </script>
+
+</body>
+
+</html>
