@@ -170,17 +170,24 @@
       const incomingEl = document.getElementById(`lightbox-img-${incoming}`);
       const activeEl = document.getElementById(`lightbox-img-${activeSlot}`);
 
-      incomingEl.classList.remove('is-loaded');
+      // Show thumbnail immediately so user sees something at once
+      const thumbEl = document.querySelector(`.gal-item[data-index="${lightboxIndex}"] img`);
+      incomingEl.src = thumbEl ? thumbEl.src : '';
       incomingEl.alt = photo.caption || '';
+      incomingEl.style.filter = 'blur(8px)';
+      incomingEl.style.transform = 'scale(1.04)';
+      requestAnimationFrame(() => {
+        incomingEl.classList.add('is-loaded');
+        activeEl.classList.remove('is-loaded');
+        activeSlot = incoming;
+      });
 
+      // Load full-res in background, swap in when ready
       const next = new Image();
       next.onload = () => {
         incomingEl.src = next.src;
-        requestAnimationFrame(() => {
-          incomingEl.classList.add('is-loaded');
-          activeEl.classList.remove('is-loaded');
-          activeSlot = incoming;
-        });
+        incomingEl.style.filter = '';
+        incomingEl.style.transform = '';
         preloadNeighbors();
       };
       next.src = photo.src;

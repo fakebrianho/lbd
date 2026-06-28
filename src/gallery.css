@@ -222,7 +222,7 @@ body {
   display: block;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.35s ease, filter 0.4s ease, transform 0.4s ease;
   position: absolute;
   top: 50%;
   left: 50%;
