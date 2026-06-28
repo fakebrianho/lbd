@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Local image assets (hosted on Cloudinary)
+src/assets/gallery/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
