@@ -103,6 +103,8 @@
         item.appendChild(img);
         item.appendChild(caption);
         item.addEventListener('click', () => openLightbox(index));
+        item.addEventListener('mouseenter', () => { new Image().src = photo.src; });
+        item.addEventListener('touchstart', () => { new Image().src = photo.src; }, { passive: true });
         grid.appendChild(item);
       });
 
