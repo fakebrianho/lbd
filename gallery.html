@@ -61,7 +61,7 @@
       const grid = document.getElementById('gallery-grid');
 
       try {
-        const res = await fetch('./photos.json');
+        const res = await fetch('/photos.json');
         if (!res.ok) throw new Error('Failed to load photos.json');
         galleryPhotos = await res.json();
       } catch (err) {

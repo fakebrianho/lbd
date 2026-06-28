@@ -25,3 +25,5 @@ src/assets/gallery/
 *.njsproj
 *.sln
 *.sw?
+src/assets/gallery/
+photos.json
