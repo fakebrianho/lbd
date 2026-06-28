@@ -48,7 +48,10 @@
     <button type="button" class="lightbox-prev" id="lightbox-prev" aria-label="Previous photo">&#8592;</button>
     <button type="button" class="lightbox-next" id="lightbox-next" aria-label="Next photo">&#8594;</button>
     <div class="lightbox-inner">
-      <img class="lightbox-img" id="lightbox-img" src="" alt="">
+      <div class="lightbox-img-wrap">
+        <img class="lightbox-img" id="lightbox-img-a" src="" alt="">
+        <img class="lightbox-img" id="lightbox-img-b" src="" alt="">
+      </div>
       <p class="lightbox-caption" id="lightbox-caption"></p>
     </div>
   </div>
@@ -152,23 +155,42 @@
       updateLightbox();
     }
 
+    let activeSlot = 'a';
+
     function updateLightbox() {
       const photo = galleryPhotos[lightboxIndex];
       if (!photo) return;
 
-      const img = document.getElementById('lightbox-img');
       const caption = document.getElementById('lightbox-caption');
-
-      img.classList.remove('is-loaded');
       caption.textContent = photo.caption || '';
+
+      const incoming = activeSlot === 'a' ? 'b' : 'a';
+      const incomingEl = document.getElementById(`lightbox-img-${incoming}`);
+      const activeEl = document.getElementById(`lightbox-img-${activeSlot}`);
+
+      incomingEl.classList.remove('is-loaded');
+      incomingEl.alt = photo.caption || '';
 
       const next = new Image();
       next.onload = () => {
-        img.src = next.src;
-        img.alt = photo.caption || '';
-        requestAnimationFrame(() => img.classList.add('is-loaded'));
+        incomingEl.src = next.src;
+        requestAnimationFrame(() => {
+          incomingEl.classList.add('is-loaded');
+          activeEl.classList.remove('is-loaded');
+          activeSlot = incoming;
+        });
+        preloadNeighbors();
       };
       next.src = photo.src;
+    }
+
+    function preloadNeighbors() {
+      const total = galleryPhotos.length;
+      [-1, 1].forEach(delta => {
+        const idx = (lightboxIndex + delta + total) % total;
+        const p = galleryPhotos[idx];
+        if (p) new Image().src = p.src;
+      });
     }
 
     function initAnimations() {
